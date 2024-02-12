@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeChallenge.Models;
+using System;
 
 public class Student
 {
@@ -13,6 +14,8 @@ public class Student
 	    public int CourseId { get; set; }
 
 	    public Course? Course { get; set; }
+
+		public ICollection<CheckpointStudent>? CheckpointStudents { get; set; }
 
 	}
 

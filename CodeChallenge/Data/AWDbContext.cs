@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CodeChallenge.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeChallenge.Data
 {
@@ -12,6 +13,8 @@ namespace CodeChallenge.Data
         public DbSet<Module> Module { get; set; }
         public DbSet<TeacherModule> TeacherModules { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
+        public DbSet<Checkpoint> Checkpoint { get; set; }
+        public DbSet<CheckpointStudent> CheckpointStudent { get; set; }
 
     }
 }

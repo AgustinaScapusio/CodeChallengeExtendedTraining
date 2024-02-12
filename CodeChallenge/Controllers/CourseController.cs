@@ -30,13 +30,26 @@ namespace CodeChallenge.Controllers
             return CreatedAtAction(nameof(GetCourse), new { id = newCourse.Id }, newCourse);
         }
 
-        [HttpGet]
+        [HttpGet("{courseId}")]
         public async Task<IActionResult> GetCourse(int courseId)
         {
             var course= await _db.Course
                 .Include(c=>c.CourseModules)!
                 .ThenInclude(c=>c.Module)
                 .SingleOrDefaultAsync(s => s.Id == courseId);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return Ok(course);
+        }
+        [HttpGet("name/{name}")]
+        public async Task<IActionResult> GetCourseByName(string name)
+        {
+            var course = await _db.Course
+                .Include(c => c.CourseModules)!
+                .ThenInclude(c => c.Module)
+                .SingleOrDefaultAsync(s => s.Name == name);
             if (course == null)
             {
                 return NotFound();

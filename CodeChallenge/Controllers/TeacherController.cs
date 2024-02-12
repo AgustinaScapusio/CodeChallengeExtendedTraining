@@ -27,6 +27,19 @@ namespace CodeChallenge.Controllers
             return Ok(teacher);
         }
 
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetTeacherByName(string name)
+        {
+            var teacher = await _db.Teacher.SingleAsync(m => m.Name == name);
+
+            if (teacher == null)
+            {
+                return NotFound();
+            }
+            return Ok(teacher);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateTeacher(CreateTeacher teacher)
         {

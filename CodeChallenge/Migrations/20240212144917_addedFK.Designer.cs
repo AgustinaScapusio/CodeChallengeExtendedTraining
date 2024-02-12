@@ -4,6 +4,7 @@ using CodeChallenge.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeChallenge.Migrations
 {
     [DbContext(typeof(AWDbContext))]
-    partial class AWDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240212144917_addedFK")]
+    partial class addedFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,13 +211,11 @@ namespace CodeChallenge.Migrations
 
             modelBuilder.Entity("CodeChallenge.Models.Checkpoint", b =>
                 {
-                    b.HasOne("Module", "Module")
+                    b.HasOne("Module", null)
                         .WithOne("Checkpoint")
                         .HasForeignKey("CodeChallenge.Models.Checkpoint", "ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Module");
                 });
 
             modelBuilder.Entity("CodeChallenge.Models.CheckpointStudent", b =>

@@ -28,6 +28,18 @@ namespace CodeChallenge.Controllers
             return Ok(module);
         }
 
+        [HttpGet ("{title}")]
+        public async Task<IActionResult> GetModuleByName(string title)
+        {
+            var module = await _db.Module.SingleAsync(m => m.Title == title);
+
+            if (module == null)
+            {
+                return NotFound();
+            }
+            return Ok(module);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateModule (CreateModule module)
         {

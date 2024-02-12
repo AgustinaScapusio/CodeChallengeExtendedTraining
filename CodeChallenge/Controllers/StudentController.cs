@@ -43,6 +43,18 @@ namespace CodeChallenge.Controllers
             return Ok(student);
         }
 
+        [HttpGet ("{name}")]
+        public async Task<IActionResult> GetStudentByName(string name)
+        {
+            var student = await _db.Student
+                .SingleOrDefaultAsync(s => s.Name == name);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student);
+        }
+
         [HttpGet("/Students")]
         public async Task<IActionResult> GetAllStudents()
         {

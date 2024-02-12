@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeChallenge.Models;
+using System;
 
 public class Module
 {
@@ -9,5 +10,7 @@ public class Module
 	    public ICollection<TeacherModule>? TeacherModules { get; set; }
 
 		public ICollection<CourseModule>? CourseModule { get; set; }
+
+	    public Checkpoint? Checkpoint { get; set; }
 
 }

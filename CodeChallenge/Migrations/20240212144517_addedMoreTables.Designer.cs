@@ -4,6 +4,7 @@ using CodeChallenge.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeChallenge.Migrations
 {
     [DbContext(typeof(AWDbContext))]
-    partial class AWDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240212144517_addedMoreTables")]
+    partial class addedMoreTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,16 +33,10 @@ namespace CodeChallenge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ModuleId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ModuleId")
-                        .IsUnique();
 
                     b.ToTable("Checkpoint");
                 });
@@ -125,11 +122,16 @@ namespace CodeChallenge.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<int?>("CheckpointId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CheckpointId");
 
                     b.ToTable("Module");
                 });
@@ -206,17 +208,6 @@ namespace CodeChallenge.Migrations
                     b.ToTable("TeacherModules");
                 });
 
-            modelBuilder.Entity("CodeChallenge.Models.Checkpoint", b =>
-                {
-                    b.HasOne("Module", "Module")
-                        .WithOne("Checkpoint")
-                        .HasForeignKey("CodeChallenge.Models.Checkpoint", "ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Module");
-                });
-
             modelBuilder.Entity("CodeChallenge.Models.CheckpointStudent", b =>
                 {
                     b.HasOne("CodeChallenge.Models.Checkpoint", "Checkpoint")
@@ -253,6 +244,15 @@ namespace CodeChallenge.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("Module", b =>
+                {
+                    b.HasOne("CodeChallenge.Models.Checkpoint", "Checkpoint")
+                        .WithMany()
+                        .HasForeignKey("CheckpointId");
+
+                    b.Navigation("Checkpoint");
                 });
 
             modelBuilder.Entity("Student", b =>
@@ -299,8 +299,6 @@ namespace CodeChallenge.Migrations
 
             modelBuilder.Entity("Module", b =>
                 {
-                    b.Navigation("Checkpoint");
-
                     b.Navigation("CourseModule");
 
                     b.Navigation("TeacherModules");
