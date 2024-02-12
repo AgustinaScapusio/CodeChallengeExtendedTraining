@@ -1,4 +1,7 @@
 
+using CodeChallenge.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace CodeChallenge
 {
     public class Program
@@ -8,7 +11,7 @@ namespace CodeChallenge
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddDbContext<AWDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AWDbContext")));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
