@@ -8,5 +8,6 @@ public class Module
 	    
 	    public ICollection<TeacherModule>? TeacherModules { get; set; }
 
-	
+		public ICollection<CourseModule>? CourseModule { get; set; }
+
 }
