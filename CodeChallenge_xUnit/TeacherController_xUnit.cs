@@ -114,7 +114,7 @@ namespace CodeChallenge_xUnit
                 var result = await controller.GetTeacher(1);
 
                 var okResult = result as OkObjectResult;
-                var returnedTeacher = okResult.Value as Teacher;
+                var returnedTeacher = okResult?.Value as Teacher;
 
                 Assert.NotEqual(expectedTeacher, returnedTeacher);
             }
@@ -139,7 +139,7 @@ namespace CodeChallenge_xUnit
                 var result = await controller.GetTeacherByName("Tomas");
 
                 var okResult = result as OkObjectResult;
-                var returnedTeacher = okResult.Value as Teacher;
+                var returnedTeacher = okResult?.Value as Teacher;
 
                 Assert.Equal(expectedTeacher.Name, returnedTeacher?.Name);
             }
@@ -164,7 +164,7 @@ namespace CodeChallenge_xUnit
                 var result = await controller.GetTeacherByName("Tomas");
 
                 var okResult = result as OkObjectResult;
-                var returnedTeacher = okResult.Value as Teacher;
+                var returnedTeacher = okResult?.Value as Teacher;
 
                 Assert.NotEqual(expectedTeacher.Name, returnedTeacher?.Name);
             }
@@ -179,14 +179,12 @@ namespace CodeChallenge_xUnit
             // Use a clean instance of context for each test
             using (var context = new AWDbContext(options))
             {
-                context.Teacher.Add(new Teacher { Name = "Tomas", Id = 1 });
+                context.Teacher.Add(new Teacher { Name = "Anders", Id = 2 });
                 context.SaveChanges();
                 var controller = new TeacherController(context);
 
                 // Act
-                var result = await controller.DeleteTeacher(1);
-
-                var okResult = result as OkObjectResult;
+                var result = await controller.DeleteTeacher(2);
 
                 Assert.IsType<NoContentResult>(result);
             }

@@ -46,7 +46,8 @@ namespace CodeChallenge.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,6 +73,26 @@ namespace CodeChallenge.Migrations
                         column: x => x.CourseId,
                         principalTable: "Course",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Checkpoint",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Score = table.Column<int>(type: "int", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Checkpoint", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Checkpoint_Module_ModuleId",
+                        column: x => x.ModuleId,
+                        principalTable: "Module",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -127,6 +148,48 @@ namespace CodeChallenge.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CheckpointStudent",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentID = table.Column<int>(type: "int", nullable: false),
+                    CheckpointID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CheckpointStudent", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CheckpointStudent_Checkpoint_CheckpointID",
+                        column: x => x.CheckpointID,
+                        principalTable: "Checkpoint",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CheckpointStudent_Student_StudentID",
+                        column: x => x.StudentID,
+                        principalTable: "Student",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Checkpoint_ModuleId",
+                table: "Checkpoint",
+                column: "ModuleId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CheckpointStudent_CheckpointID",
+                table: "CheckpointStudent",
+                column: "CheckpointID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CheckpointStudent_StudentID",
+                table: "CheckpointStudent",
+                column: "StudentID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_CourseModule_CourseID",
                 table: "CourseModule",
@@ -157,22 +220,28 @@ namespace CodeChallenge.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CourseModule");
+                name: "CheckpointStudent");
 
             migrationBuilder.DropTable(
-                name: "Student");
+                name: "CourseModule");
 
             migrationBuilder.DropTable(
                 name: "TeacherModules");
 
             migrationBuilder.DropTable(
-                name: "Course");
+                name: "Checkpoint");
+
+            migrationBuilder.DropTable(
+                name: "Student");
+
+            migrationBuilder.DropTable(
+                name: "Teacher");
 
             migrationBuilder.DropTable(
                 name: "Module");
 
             migrationBuilder.DropTable(
-                name: "Teacher");
+                name: "Course");
         }
     }
 }

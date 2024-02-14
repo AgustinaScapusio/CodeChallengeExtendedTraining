@@ -50,15 +50,22 @@ namespace CodeChallenge.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteCheckpointStudent(int checkpointStudentId)
         {
-            var checkpointStudent = _db.CheckpointStudent.Include(c => c.Student).Include(c => c.Checkpoint).FirstOrDefaultAsync(c => c.Id == checkpointStudentId);
+            var checkpointStudent = await _db.CheckpointStudent
+                .Include(c => c.Student)
+                .Include(c => c.Checkpoint)
+                .FirstOrDefaultAsync(c => c.Id == checkpointStudentId);
+
             if (checkpointStudent == null)
             {
                 return NotFound();
             }
+
             _db.Remove(checkpointStudent);
             await _db.SaveChangesAsync();
-            return NoContent();
+
+            return Ok(checkpointStudent);
         }
+
 
         [HttpPut]
         public async Task<IActionResult> UpdateCheckpointStudent(int checkpointStudentId, CreateCheckpointStudent checkpointStudent)

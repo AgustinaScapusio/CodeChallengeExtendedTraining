@@ -51,7 +51,10 @@ namespace CodeChallenge.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteCheckpoint(int checkpointId)
         {
-            var checkpoint = _db.Checkpoint.Include(c=>c.Module).Include(c=>c.CheckpointStudents).FirstOrDefaultAsync(c=>c.Id == checkpointId);
+            var checkpoint = await _db.Checkpoint
+                                        .Include(c => c.Module)
+                                        .Include(c => c.CheckpointStudents)
+                                        .FirstOrDefaultAsync(c => c.Id == checkpointId);
             if (checkpoint == null)
             {
                 return NotFound();
@@ -60,6 +63,7 @@ namespace CodeChallenge.Controllers
             await _db.SaveChangesAsync();
             return NoContent();
         }
+
 
         [HttpPut]
         public async Task<IActionResult> UpdateCheckpoint(int checkpointId, CreateCheckpoint checkpoint)

@@ -63,9 +63,7 @@ namespace CodeChallenge.Controllers
         public async Task<IActionResult> DeleteModule(int moduleID)
         {
             var module = await _db.Module.Include(m => m.CourseModule)!
-                                            .ThenInclude(m => m.Module)
                                             .Include(m => m.TeacherModules)!
-                                            .ThenInclude(m => m.Teacher)
                                             .SingleAsync(m => m.ID == moduleID);
             if (module == null)
             {
