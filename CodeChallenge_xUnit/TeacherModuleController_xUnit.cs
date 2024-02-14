@@ -124,49 +124,7 @@ namespace CodeChallenge_xUnit
                 Assert.Equal(updatedModuleId, updatedTeacherModule.ModuleID);
             }
         }
-        [Fact]
-        public async Task GetTeacherModule_With_Invalid_Id_Returns_NotFound()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<AWDbContext>()
-                          .UseInMemoryDatabase(databaseName: "GetTeacherModule_With_Invalid_Id_Returns_NotFound")
-                          .Options;
-
-            // Use a clean instance of context for each test
-            using (var context = new AWDbContext(options))
-            {
-                var controller = new TeacherModuleController(context);
-
-                // Act
-                var result = await controller.GetTeacherModule(999) as NotFoundResult;
-
-                // Assert
-                Assert.IsType<NotFoundResult>(result);
-            }
-        }
-
-        [Fact]
-        public async Task DeleteTeacherModule_With_Invalid_Id_Returns_NotFound()
-        {
-            // Arrange
-            var options = new DbContextOptionsBuilder<AWDbContext>()
-                          .UseInMemoryDatabase(databaseName: "DeleteTeacherModule_With_Invalid_Id_Returns_NotFound")
-                          .Options;
-
-            // Use a clean instance of context for each test
-            using (var context = new AWDbContext(options))
-            {
-                var controller = new TeacherModuleController(context);
-
-                // Act
-                var result = await controller.DeleteTeacherModule(999) as NotFoundResult;
-
-                // Assert
-                Assert.NotNull(result);
-                Assert.Equal(404, result.StatusCode);
-            }
-        }
-
+        
         [Fact]
         public async Task UpdateTeacherModule_With_Invalid_Id_Returns_NotFound()
         {

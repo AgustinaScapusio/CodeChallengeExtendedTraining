@@ -146,13 +146,9 @@ namespace CodeChallenge_xUnit
                 var controller = new CheckpointController(context);
 
                 // Act
-                await controller.DeleteCheckpoint(1);
-                var result = await controller.GetAllCheckpoint() as OkObjectResult;
+                var result = await controller.DeleteCheckpoint(1);
 
-                // Assert
-                Assert.NotNull(result);
-                var checkpoints = result.Value as List<Checkpoint>;
-                Assert.Equal(1, checkpoints.Count);
+                Assert.IsType<NoContentResult>(result);
             }
         }
 

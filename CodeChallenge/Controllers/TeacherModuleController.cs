@@ -53,14 +53,12 @@ namespace CodeChallenge.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteTeacherModule(int teacherModuleID)
         {
-            var teacherModule = await _db.TeacherModules.Include(m => m.Module)
-                                            .Include(m => m.Teacher)
-                                            .SingleAsync(m => m.ID == teacherModuleID);
+            var teacherModule = await _db.TeacherModules.SingleAsync(m => m.ID == teacherModuleID);
             if (teacherModule == null)
             {
                 return NotFound();
             }
-            _db.TeacherModules.Remove(teacherModule);
+            _db.Remove(teacherModule);
             await _db.SaveChangesAsync();
             return NoContent();
         }

@@ -49,8 +49,7 @@ namespace CodeChallenge.Controllers
             [HttpDelete]
             public async Task<IActionResult> DeleteCourseModule(int courseModulesID)
             {
-                var courseModules = _db.CourseModule.Include(c => c.Module)
-                    .Include(c => c.Course)
+                var courseModules = _db.CourseModule
                     .SingleOrDefault(c => c.ID == courseModulesID);
                 if (courseModules == null)
                 {

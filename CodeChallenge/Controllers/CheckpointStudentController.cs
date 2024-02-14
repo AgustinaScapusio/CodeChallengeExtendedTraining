@@ -51,8 +51,6 @@ namespace CodeChallenge.Controllers
         public async Task<IActionResult> DeleteCheckpointStudent(int checkpointStudentId)
         {
             var checkpointStudent = await _db.CheckpointStudent
-                .Include(c => c.Student)
-                .Include(c => c.Checkpoint)
                 .FirstOrDefaultAsync(c => c.Id == checkpointStudentId);
 
             if (checkpointStudent == null)

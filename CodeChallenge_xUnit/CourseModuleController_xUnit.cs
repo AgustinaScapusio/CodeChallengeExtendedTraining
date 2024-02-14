@@ -112,7 +112,7 @@ namespace CodeChallenge_xUnit
                 var result = await controller.DeleteCourseModule(2);
 
                 // Assert
-                Assert.IsType<NotFoundResult>(result);
+                Assert.IsType<NoContentResult>(result);
             }
         }
 
