@@ -87,7 +87,7 @@ namespace CodeChallenge.Controllers
         [Range(0, 10)]
         public int Score { get; set; }
 
-        public int ModuleId;
+        public int ModuleId { get; set; }
      
     }
 
